@@ -1,4 +1,4 @@
-package com.cfox.essocket
+package com.cfox.clinea
 
 import org.junit.Test
 

@@ -1,3 +1,3 @@
+include ':clinea'
 include ':EsSocket'
-include ':app'
 rootProject.name = "EsSocket"

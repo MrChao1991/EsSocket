@@ -3,34 +3,35 @@ package com.cfox.essocket
 import android.util.Log
 import java.io.IOException
 import java.net.ServerSocket
-import java.net.Socket
 
 class ServerSocketHelper {
     companion object {
         private const val TAG = "ServerSocketHelper"
     }
 
-    private val socketMap = mutableMapOf<String, Socket>()
+    private val socketMap = mutableMapOf<String, SocketManager>()
     private var serverSocket : ServerSocket ? = null
     private var serverStarting = false
 
     fun startServer(port: Int) {
-        Log.d(TAG, "startServer: ..... start ....")
+        Log.d(TAG, "startServer: ..... start .... port:$port")
         try {
             serverStarting = true
             serverSocket = ServerSocket(port)
             while (serverStarting) {
+                Log.d(TAG, "startServer:serverSocket is null =====>  ${serverSocket == null}")
+                Log.d(TAG, "startServer: inetAddress : ${serverSocket?.localSocketAddress}")
                 val socket = serverSocket?.accept()
                 socket?.let {
                     val host = it.inetAddress.hostAddress
                     val port = it.port
-                    Log.d(TAG, "startServer: cline : host:$host  port:$port")
                     val key = "$host:$port"
-                    socketMap[key] = socket
+                    Log.d(TAG, "startServer: cline : host:$host  port:$port   key:$key")
+                    socketMap[key] = SocketManager(socket)
                 }
             }
         } catch (e: IOException) {
-
+            Log.d(TAG, "startServer: fail : ${e.printStackTrace()}")
         }
         Log.d(TAG, "startServer: ..... end ....")
     }
@@ -39,9 +40,7 @@ class ServerSocketHelper {
         Log.d(TAG, "closeServer:  start ....")
         serverStarting = false
         socketMap.forEach{
-            if (!it.value.isClosed) {
-                it.value.close()
-            }
+            it.value.close()
         }
 
         serverSocket?.let {
@@ -56,9 +55,7 @@ class ServerSocketHelper {
         val key = "$host:$port"
         val socket = socketMap[key]
         socket?.let {
-            if (!it.isClosed) {
-                it.close()
-            }
+            it.close()
         }
         socketMap.remove(key)
     }
@@ -67,7 +64,8 @@ class ServerSocketHelper {
         return socketMap.keys
     }
 
-    fun getSocket(key : String) : Socket? {
+    fun getSocket(key : String) : SocketManager? {
+        Log.d(TAG, "getSocket: key:$key")
         return socketMap[key]
     }
 }

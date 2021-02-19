@@ -1,4 +1,4 @@
-package com.cfox.essocket
+package com.cfox.clinea
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.cfox.essocket", appContext.packageName)
+        assertEquals("com.cfox.clinea", appContext.packageName)
     }
 }
