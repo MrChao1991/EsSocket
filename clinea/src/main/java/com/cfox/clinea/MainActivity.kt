@@ -77,6 +77,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun pushImage(view: View) {
+
+
+    }
+
     fun setListener(view: View) {
         clineHandler.post {
             clineSocketManager?.setListener(object : SocketManager.SocketMessageListener {
@@ -105,4 +110,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
