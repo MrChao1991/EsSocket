@@ -1,6 +1,7 @@
 package com.cfox.clinea
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import java.io.ByteArrayOutputStream
@@ -8,8 +9,8 @@ import java.io.ByteArrayOutputStream
 object BitmapUtils  {
 
 
-    fun getBitmapForRes(context: Context, res: Int) : Bitmap {
-        return BitmapFactory.decodeResource(context.resources, res)
+    fun getBitmapForRes(resources : Resources, res: Int) : Bitmap {
+        return BitmapFactory.decodeResource(resources, res)
     }
 
 

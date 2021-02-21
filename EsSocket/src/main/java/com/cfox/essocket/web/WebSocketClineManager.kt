@@ -1,11 +1,15 @@
 package com.cfox.essocket.web
 
+import android.util.Log
 import org.java_websocket.handshake.ServerHandshake
 import java.lang.Exception
 import java.net.URI
 import java.nio.ByteBuffer
 
 class WebSocketClineManager : SocketClineListener {
+    companion object {
+        private const val TAG = "WebSocketClineManager"
+    }
 
     private var socketCline : SocketCline ? = null
     private var socketClineListener : SocketClineListener ? = null
@@ -19,6 +23,8 @@ class WebSocketClineManager : SocketClineListener {
 
     override fun onOpen(handshakedata: ServerHandshake?) {
         socketClineListener?.onOpen(handshakedata)
+        val code = handshakedata?.httpStatus
+        Log.d(TAG, "onOpen: code $code")
     }
 
     override fun onClose(code: Int, reason: String?, remote: Boolean) {
@@ -48,7 +54,7 @@ class WebSocketClineManager : SocketClineListener {
 
     fun sendData(msg: String) {
         socketCline?.apply {
-            if (!this.isClosed && !this.isClosing) {
+            if (this.isOpen && !this.isClosed && !this.isClosing) {
                 this.send(msg)
             }
         }
